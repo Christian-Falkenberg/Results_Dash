@@ -58,7 +58,6 @@ def update_graph(methods, settings, range_slider,slider_choice,slider,dataset,cl
         dff = dff[(dff['Data_size'] >= range_slider[0]) & (df['Data_size'] <= range_slider[1])]
     else:
         dff = dff[dff['Data_size'] == slider]
-    #fig = px.line(dff, x="Coverage", y="Accuracy", color='Method')
 
     if 'Cropped X-Axis' in settings:
         dff = dff[dff['Coverage'] >= 0.5]
@@ -73,7 +72,7 @@ def update_graph(methods, settings, range_slider,slider_choice,slider,dataset,cl
     fig.update_xaxes(showgrid=show_grid, gridcolor='grey')  # X-axis grid color
     fig.update_yaxes(showgrid=show_grid, gridcolor='grey')  # Y-axis grid color
 
-
+        ##
     #fig['layout']['xaxis'] = {'range': (1, 0.5)}
     #ymin, ymax = min(dff["Accuracy"]), max(dff["Accuracy"])
     #print(ymin,ymax)
@@ -81,8 +80,46 @@ def update_graph(methods, settings, range_slider,slider_choice,slider,dataset,cl
 
 
     dff_time = df_time[df_time['Dataset'] == dataset]
-    #dff_time = dff_time[dff_time.Method.isin(methods)]
-    fig2 = px.scatter(dff_time, x="Score", y="Inference Time",color='Method')
+
+    if slider_choice=='Range Slider':
+        dff_time = dff_time[(dff_time['Data_size'] >= range_slider[0]) & (dff_time['Data_size'] <= range_slider[1])]
+    else:
+        dff_time = dff_time[dff_time['Data_size'] == slider]
+    
+
+    
+    #dff_time = dff_time[dff_time.Classifier.isin(classifier)]
+
+    #pattern = '|'.join(classifier)
+    #dff_time = dff_time[dff_time['Method'].str.contains(pattern)]
+    #pattern = '|'.join(methods)
+    #dff_time = dff_time[dff_time['Method'].str.contains(pattern)]
+
+    dff_time = dff_time[dff_time.Method.isin(methods)]
+    dff_time = dff_time[dff_time.Classifier.isin(classifier)]
+
+
+    #fig2 = px.scatter(dff_time, x="Score", y="Inference Time",color='Method',symbol='Data_size')
+
+    # Create subplots: 1 row, 2 columns
+    fig2 = make_subplots(rows=1, cols=2, subplot_titles=("Inference Time vs Score", "Initial Time vs Score"))
+
+    # Create scatter plots
+    inference_fig = px.scatter(dff_time, x="Score", y="Inference Time", color='Method', symbol='Data_size')
+    initial_fig = px.scatter(dff_time, x="Score", y="Initial Time", color='Method', symbol='Data_size')
+
+    # Add traces to subplots
+    for trace in inference_fig.data:
+        fig2.add_trace(trace, row=1, col=1)
+
+    for trace in initial_fig.data:
+        fig2.add_trace(trace, row=1, col=2)
+
+    fig2.update_layout(title_text="Score X Inference and Initial Time X Data sizes(Range Slider auswählen)",)
+    fig2.update_xaxes(title_text="Score", row=1, col=1)
+    fig2.update_yaxes(title_text="Inference Time", row=1, col=1)
+    fig2.update_xaxes(title_text="Score", row=1, col=2)
+    fig2.update_yaxes(title_text="Initial Time", row=1, col=2)
 
     return fig,fig2
     
