@@ -1,6 +1,6 @@
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
-import pandas as pd
+from plotly.subplots import make_subplots
 import pickle
 
 
@@ -19,7 +19,7 @@ app.layout = [
     html.H1(children='Results', style={'textAlign': 'center'}),
     html.P("Select Dataset"),
     dcc.Dropdown(id="dataset",options=df.Dataset.unique(),value="Sentiment Interpolated",clearable=False),
-    dcc.Checklist(df.Method.unique(), df.Method.unique(), id='method-selection', inline=True),
+    dcc.Checklist(df.Method.unique(), [method for method in df.Method.unique() if method not in ["Base Embeddings", "Base Outlier"]], id='method-selection', inline=True),
     dcc.Checklist(["SVM","Random Forest","Logistic Regression","Simple NN","generic"], ["Logistic Regression","generic"],id='slider_classifier',inline=True),
 
     html.P('Range Slider:', style={'font-weight': 'bold'}), 
@@ -31,7 +31,7 @@ app.layout = [
     dcc.RadioItems(['Range Slider', 'Slider'], 'Slider',id='slider_choice', inline=True),
 
     dcc.Graph(id='graph-content', style={'width': '1000px', 'height': '800'}),
-    dcc.Graph(id='graph-content_2', style={'width': '800px', 'height': '400'}),
+    dcc.Graph(id='graph-content_2', style={'width': '1600px', 'height': '600'}),
     dcc.Checklist(['Show Grid','Cropped X-Axis'], ['Cropped X-Axis'], id='settings', inline=True),
 
 
