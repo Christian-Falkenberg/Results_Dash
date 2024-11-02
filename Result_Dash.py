@@ -75,6 +75,8 @@ def update_graph(methods, settings, range_slider,slider_choice,slider,dataset,cl
         explanation = "Multiclass (pos,neutral,neg) Sentiment Analysis Dataset"
     elif dataset == "Question Answering":
         explanation = "Context-Question-Answer (SQUAD) Dataset"
+    elif dataset == "AG_News":
+        explanation = "AG News Classification Dataset"
     elif dataset == "Spam":
         explanation = "Email Spam Classification Dataset mit Email TITEL als Input"
     elif dataset == "Spam_text":
@@ -83,8 +85,10 @@ def update_graph(methods, settings, range_slider,slider_choice,slider,dataset,cl
         explanation = "Movie Review Sentiment als Regression - Model predicted Sternenanzahl als float value"
     elif dataset == "Transformation":
         explanation = "Spell Checker - Model korrigert Rechtschreibung"
+    elif dataset == "Time Series Regression":
+        explanation = "Periodic Time Series data - Input: 5 Values, Predict the next - Correct if distance to label is close enough"
     elif dataset == "Merged":
-        explanation = "Alle Interpolated Datasets Merged, ohne RunTime Merge "
+        explanation = "Alle Interpolated Datasets Merged, ohne RunTime Merge"
         format = "Raw" # Merged ist eigentlich Interpolated Merge, aber für Anzeige irrelevant 
     else:
         explanation = "Erklärung kommt noch"
