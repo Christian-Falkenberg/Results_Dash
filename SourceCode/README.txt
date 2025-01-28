@@ -1,5 +1,10 @@
 0. Use requirements.txt
 ------------------------------------------------------
+For Phi Finetuned AG NEWS (sbatch run.sh AG_News_PHI) Experiment
+	Download Phi_results.pkl
+	https://datashare.tu-dresden.de/s/AzcNPPTHHCwk8DP
+	place it in 	/dependencies/Phi_results.pkl
+
 
 1. RUN Experiments
 ------------------------------------------------------
